@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="utf-8"/>
+    <title>CryptoTrader</title>
+    <link rel="stylesheet" href="css/screenStyle.css">
+    <link rel="stylesheet" href="css/printStyle.css">
+    <meta name="google-signin-client_id" content="943244103648-97klkfncnnisaq3m99s2tj16i1e8um9c.apps.googleusercontent.com">
+
+</head>
+
+<body>
+
+<nav >
+    <a href="#welcome">
+    <svg height="50px" width="55px">
+        <line x1="50" x2="30" y1="10" y2="30" stroke="#16c784" stroke-width="5"/>
+        <line x1="20" x2="0" y1="25" y2="50" stroke="#16c784" stroke-width="5"/>
+        <line x1="18" x2="33" y1="25" y2="30" stroke="#16c784" stroke-width="5"/>
+        <line x1="35" x2="50" y1="10" y2="10" stroke="#16c784" stroke-width="5"/>
+        <line x1="50" x2="50" y1="10" y2="25" stroke="#16c784" stroke-width="5"/>
+    </svg>
+    </a>
+    <a href="#welcome" style="color: #16c784; font-size: 30px">CryptoTrader</a>
+    <a href="#crypto">Cryptocurrencies</a>
+    <a href="#FAQ">FAQ</a>
+    <a href="#BTC">BTC Price</a>
+    <a href="#main/1/20">Opinions</a>
+    <a href="#addOpinion">Add Opinion</a>
+    <a href="#opinions">Visitor opinions</a>
+    <div style="float: right;" id="SignInButton"></div>
+
+
+</nav>
+
+<div style="text-align: right; color: #fff" id="SignedIn">
+    You are signed in as <span id="userName"></span> <button onclick="signOut()">Sign Out</button>
+</div>
+
+<aside id="googleSignIn"></aside>
+
+
+<div style="display:block;" id="m">
+
+</div>
+
+<main style="display:block;"  id="articles">
+
+</main>
+
+
+
+
+<script id="main" type="text/template">
+    <div class="comment-pages">
+    <h2>Opinions</h2>
+    <p>
+        Displaying page {{currPage}} of {{pageCount}} pages.
+    </p>
+    <nav >
+        {{#prevPage}}
+        <a href="#main/{{prevPage}}/{{pageCount}}"><< Previous page</a>
+        {{/prevPage}}
+        {{#nextPage}}
+        <a href="#main/{{nextPage}}/{{pageCount}}">Next page >></a>
+        {{/nextPage}}
+    </nav >
+    </div>
+</script>
+
+<script id="template-welcome" type="text/template">
+
+
+<div class="about">
+    <h1 style=" color: rgb(160, 160, 160);">About this site</h1>
+    <p>
+        CryptoTrader je stránka sledovania cien kryptomien s najväčším počtom referencií v rýchlo rastúcom priestore
+        kryptomien. Úlohou CryptoTrader je zabezpečiť, aby bolo krypto viditeľné a efektívne na celom svete, a to tým,
+        že maloobchodným používateľom poskytne nestranné, vysoko kvalitné a presné informácie, aby si mohli vytvoriť
+        vlastné informované záverov.
+    </p>
+    <p>
+        Spoločnosť CryptoTrader, ktorú založil Brandon Chez v máji 2013, sa rýchlo rozrástla a stala sa
+        najdôveryhodnejším zdrojom medzi používateľmi, inštitúciami a médiami na porovnávanie tisícov kryptoaktív, a je
+        bežne citovaná významnými spravodajskými kanálmi ako CNBC, Bloomberg a ďalšími. (Aj vláda Spojených štátov
+        využíva dáta CryptoTrader na výskum a správy!)
+    </p>
+    <p>
+        Spoločnosť CryptoTrader v apríli 2020 prevzala spoločnosť Binance Capital Mgmt. Binance je globálna
+        blockchainová spoločnosť stojaca za najväčšou svetovou burzou digitálnych aktív podľa objemu obchodovania a
+        používateľov, ktorá zdieľa spoločnú víziu sprístupňovania a systémového významu kryptomeny ľuďom na celom svete.
+    </p>
+    <p>
+        Prostredníctvom akvizície plánuje spoločnosť CryptoTrader preniknúť do rozsiahlych zdrojov svojej materskej
+        spoločnosti, aby získala hlbšie údaje k projektom, znížila informačnú asymetriu v kryptoodvetví a priniesla
+        vysokokvalitné údaje svojim stovkám miliónov používateľov.
+    </p>
+    <p>
+        CryptoTrader stojí pevne za presnými, včasnými a nezaujatými informáciami. Od akvizície zo strany spoločnosti
+        Binance zo začiatku roku 2020 pokračuje spoločnosť CryptoTrader v činnosti nezávisle od svojej materskej
+        spoločnosti. Pre viac informácií si prečítajte naše pravidlá zverejňovania.
+    </p>
+</div>
+
+</script>
+
+<script id="FAQ" type="text/template">
+
+    <div class="about">
+        <h1 style=" color: rgb(160, 160, 160);">Časté otázky</h1>
+        <h2>Ako sa vypočítavajú ceny rôznych kryptomien?</h2>
+        <p>Podrobné informácie o tejto téme sú uvedené v metodológii v sekcii Kritéria uvedenia.
+        </p>
+        <h2> Čo je to trhová kapitalizácia a ako sa vypočítava?
+        </h2>
+        <p>Trhová kapitalizácia je jedným zo spôsobov, ako hodnotiť relatívnu veľkosť kryptomeny. Vypočítava sa vynásobením ceny a obehovej ponuky.
+        </p>
+        <h2>Trhová kapitalizácia = cena × obehová ponuka</h2>
+        <p>
+            Aký je rozdiel medzi obehovou ponukou, celkovou ponukou a maximálnou ponukou?
+            Obehová ponuka je najlepším odhadom počtu coinov, ktoré sú v obehu na trhu a rukách verejnosti.
+            Celková ponuka predstavuje celkový počet coinov, ktoré momentálne existujú (bez akýchkoľvek coinov, ktoré boli dokázateľne spálené).
+            Maximálna ponuka predstavuje najlepší odhad počtu coinov, ktoré budú počas životnosti kryptomeny existovať.
+        </p>
+        <h2>Prečo sa pri určovaní trhovej kapitalizácie používa obehová ponuka a nie celková ponuka?
+        </h2>
+        <p>Zistili sme, že obehová ponuka predstavuje oveľa lepšiu metriku na určenie trhovej kapitalizácie. Coiny, ktoré sú zamknuté, rezervované alebo ich nie je možné predať na verejnom trhu sú tie, ktoré nemôžu ovplyvniť cenu, a preto by nemali ovplyvňovať trhovú kapitalizáciu. Spôsob používania obehovej ponuky je podobný ako spôsob používania ukazovateľa public float pri určovaní trhovej kapitalizácie pri tradičnom investovaní.
+        </p>
+        <h2>Aký je na webe rozdiel medzi coinom a tokenom?</h2>
+        <p>A je kryptomena, ktorá dokáže fungovať nezávisle.</p>
+
+        <p>A je kryptomena, ktorá je pri svojom fungovaní závislá od inej kryptomeny ako platformy. Zoznam tokenov a ich príslušných platforiem nájdete v sekcii is a cryptocurrency that depends on another cryptocurrency as a platform to operate. Check out the .
+        </p>
+        <h2>Aké sú kritéria uvedenia kryptomeny alebo burzy v službách CryptoTrader?</h2>
+        <p>Podrobné informácie o tejto téme sú uvedené v metodológii v sekcii Kritéria uvedenia.
+        </p>
+        <h2>Prečo sú z priemernej ceny a celkového objemu trhov vylúčené trhy bez poplatkov?
+        </h2>
+        <p>Keď nie sú na burze účtované žiadne poplatky, obchodník (alebo bot) môže neobmedzene obchodovať sám so sebou a bez penalizácie tak generovať množstvo „falošného“ objemu. Nie je možné určiť, aká veľká časť objemu je falošná, preto tieto burzy z výpočtov celkom vylučujeme.
+        </p>
+        <h2>Prečo už na CryptoTrader nevidím pridružené prepojenia na burzy?</h2>
+        <p>Partnerský program sme ukončili z dôvodu dodržiavania zhody. To znamená, že pridružené partnerské prepojenia na účastnícke burzy pridružených partnerov boli odstránené.
+        </p>
+        <h2>Ako si zakúpim kryptomenu?</h2>
+        <p>CryptoTrader poskytuje hlásenia o obchodných aktivitách tisícok trhov, ale priamo nepredáva žiadne kryptomeny. Najlepší spôsob, ako zistiť, kde ich kúpiť, je pozrieť sa na sekciu trhov pre kryptomenu. Ak napríklad chcete vedieť, kde kúpiť Bitcoin, môžete sa pozrieť na sekciu trhov pre Bitcoin.
+        </p>
+        <h2>Aké časové pásmo používa tento web?</h2>
+        <p>Údaje sú zhromažďované, zaznamenávané a nahlasované v čase UTC, pokiaľ nie je uvedené inak.
+        </p>
+        <h2>Na akom časovom pásme sa zakladá 24-hodinová percentuálna zmena?</h2>
+        <p>Zakladá sa na súčasnom čase. Ide o priebežné 24-hodinové obdobie.
+        </p>
+        <h2>Prečo uvádzate menu [insert random cryptocurrency]? Je to zjavne podvod!</h2>
+        <p>Takmer všetky kryptomeny boli počas svojej životnosti aspoň raz označené za podvod. Nie sme tu, aby sme súdili podstatu akejkoľvek kryptomeny, ale poskytujeme vám najlepšie nástroje, aby ste k záverom dospeli sami. Ak však mena spĺňa podmienky uvedenia, môžeme je uviesť na webe.
+        </p>
+        <h2>Prečo neuvádzate menu [insert random cryptocurrency]?</h2>
+        <p>Hoci sa snažíme pridať každú jednu kryptomenu vo vesmíre, je doslova nemožné uviesť všetky. Uvádzanie kryptomien je do značnej miery manuálny proces, ktorý si vyžaduje čas a zdroje, aby sa zabezpečila presnosť našich údajov. Podrobné informácie o tejto téme sú uvedené v metodológii v sekcii Kritériá uvedenia.
+        </p>
+        <h2>Mám povolené používať obsah (snímky obrazovky, údaje, grafy atď.) na moje osobné projekty a/alebo komerčné použitie?
+        </h2><p>Za predpokladu, že ako zdroj uvediete CryptoTrader.com, môžete obsah používať na akademické a novinárske účely. Riaďte sa našimi zmluvnými podmienkami používania pre web.
+    </p>
+        <h2>Prečo sa niekedy pri obehovej ponuke a trhovej kapitalizácii kryptomeny zobrazuje otáznik?
+        </h2>
+        <p>V snahe zabezpečiť presné hodnotenie trhovej kapitalizácie úzko spolupracujeme s tímom a vývojármi na overení podrobností ponuk v príslušných blockchainoch. Ak sa zobrazí otáznik, znamená to, že sme obehovú ponuku a trhovú kapitalizáciu ešte neoverili dostatočne.
+        </p>
+    </div>
+</script>
+
+<script id="BTCprice" type="text/template">
+    <article>
+    <h1 ><img style="width: 60px;!important; height: auto" src=img/Bitcoin-Emblem.png alt="BTC logo">BTC price in EUR</h1>
+
+    <div class="cryptograf" style="margin-left: 10vw">
+
+        <picture class="transition_and_transform ">
+            <source media="(max-width: 768px)" srcset="img/BTC.png">
+            <source media="(min-width: 769px)" srcset="img/BTC-big.png">
+            <img style="text-align: center; width: 50vw; border-radius: 15px;" src="img/BTC-big.png" alt="BTC graf">
+        </picture>
+
+        <div  style="float: right; margin-top: 100px; text-align: center" >
+        <span class="description1">
+            <span style="padding: 5px; float:left ">Price:</span>
+            <span class="price" style="padding: 5px; float:right">€41,337.67</span>
+        </span>
+
+            <span class="description1">
+            <span style="padding: 5px;float: left ">24h%:</span>
+            <span style="padding: 5px; float:right; color: #ea3943">-0.68%</span>
+        </span>
+
+
+            <span class="description1">
+            <span style="padding: 5px;float:left ">7d%:</span>
+            <span style="padding: 5px; float:right; color: #16c784">+8,84%</span>
+        </span>
+        </div>
+
+    </div>
+    </article>
+</script>
+
+<script id="template-articles" type="text/template">
+
+    {{#articles}}
+    <div style="padding-bottom: 5px; padding-top: 5px" >
+        <div class="comBlock">
+            <h2><a href="{{detailLink}}">{{title}}</a></h2>
+
+                {{content}}
+                <br>
+            <p style="font-size: 20px;">
+                by {{author}}
+
+            </p>
+        </div>
+    </div>
+    {{/articles}}
+
+</script>
+
+
+<script id="template-article" type="text/template">
+
+    <article class="article_style">
+        <h3>{{title}}</h3>
+        <p>
+            by {{author}}
+        </p>
+        {{#imageLink}}
+        <figure>
+            <img width="500" height="auto" src="{{imageLink}}" alt="article figure" />
+        </figure>
+        {{/imageLink}}
+        <div>{{{content}}}</div>
+        <p>
+            Keywords:
+            {{tags}}
+        </p>
+
+        <div>
+            <a href="{{backLink}}" class="linkAsButton"><< Back</a>
+            <a href="{{editLink}}" class="linkAsButton">Edit</a>
+            <a href="{{deleteLink}}" class="linkAsButton">Delete</a>
+
+        </div>
+    </article>
+
+
+
+</script>
+
+<script id="template-articles-error" type="text/template">
+
+    <article>
+        <h2>Articles acquisition failed</h2>
+        <p>
+            {{errMessage}}
+        </p>
+    </article>
+
+</script>
+
+<script id="template-opinions" class="comments" type="text/template">
+    <article  id="artOpinions" style="text-align: center" >
+        <h2 style="color: rgb(161, 167, 187);">Visitor Opinions</h2>
+        {{#.}}
+        <article style="padding-top: 10px">
+        <section  class="comBlock">
+            <div style="display: inline-block; ">
+                <img style="width: 100px; height: auto;" src= {{URl}} alt="image">
+            </div>
+            <div style="display: inline-block; vertical-align: top;">
+                <p style="font-size: 30px; margin:  0 0 0 0; display: inline-block; vertical-align: top;" >{{name}}</p>
+                <p> <i style="font-size: 15px; margin:  0 0 0 0; display: inline-block; vertical-align: top;">{{createdDate}}</i></p>
+                <p>{{comment}}</p>
+            </div>
+        </section>
+        </article>
+        {{/.}}
+        {{^.}}
+        <section>
+            Sorry, no opinions found.
+        </section>
+        {{/.}}
+    </article>
+</script>
+
+<script id="cryptocurrencies" type="text/template">
+    <main >
+        <div class="advertisement">
+            <a href="https://www.google.com"><img src="img/google.png" alt="google.com"></a>
+            <a href="https://www.google.com"><img src="img/google.png" alt="google.com"></a>
+            <a href="https://www.google.com"><img src="img/google.png" alt="google.com"></a>
+            <a href="https://www.google.com"><img src="img/google.png" alt="google.com"></a>
+        </div>
+
+
+        <article class="main">
+            <div class="table-div">
+                <a style="width: 300px; height: 200px"  href="#BTC"><img src=img/BTC.png class="img-center" alt="BTC price"></a>
+                <h4 style="margin: 0">BTC</h4>
+                <div>
+
+                    <div class="description">
+                        <span style="padding: 5px; float:left ">Price:</span>
+                        <span class="price" style="padding: 5px; float:right">€41,337.67</span>
+                    </div>
+                    <br>
+
+                    <div class="description">
+                        <span style="padding: 5px;float: left ">24h%:</span>
+                        <span style="padding: 5px; float:right; color: #ea3943">-0.68%</span>
+                    </div>
+                    <br>
+
+
+                    <div class="description">
+                        <span style="padding: 5px;float:left ">7d%:</span>
+                        <span style="padding: 5px; float:right; color: #16c784">+8,84%</span>
+                    </div>
+                    <br>
+
+                </div>
+            </div>
+
+
+            <div class="table-div">
+                <a><img src=img/Binance.png class="img-center" alt="Binance Coin price"></a>
+                <h4 style="margin: 0">Binance Coin</h4>
+                <div>
+
+                    <div class="description">
+                        <span style="padding: 5px; float:left ">Price:</span>
+                        <span class="price" style="padding: 5px; float:right  ">€377.67</span>
+                    </div>
+                    <br>
+
+                    <div class="description">
+                        <span style="padding: 5px;float: left ">24h%:</span>
+                        <span style="padding: 5px; float:right; color: #16c784">+1.77%</span>
+                    </div>
+                    <br>
+
+
+                    <div class="description">
+                        <span style="padding: 5px;float:left ">7d%:</span>
+                        <span style="padding: 5px; float:right; color: #16c784">+30.29%</span>
+                    </div>
+                    <br>
+
+                </div>
+            </div>
+
+            <div class="table-div">
+                <a><img src=img/Doge.png class="img-center" alt="Dogecoin price"></a>
+                <h4 style="margin: 0">Dogecoin</h4>
+                <div>
+
+                    <div class="description">
+                        <span style="padding: 5px; float:left ">Price:</span>
+                        <span class="price" style="padding: 5px; float:right">€0.221</span>
+                    </div>
+                    <br>
+
+                    <div class="description">
+                        <span style="padding: 5px;float: left ">24h%:</span>
+                        <span style="padding: 5px; float:right; color: #16c784">+11.00%</span>
+                    </div>
+                    <br>
+
+
+                    <div class="description">
+                        <span style="padding: 5px;float:left ">7d%:</span>
+                        <span style="padding: 5px; float:right; color: #16c784">+27.26%</span>
+                    </div>
+                    <br>
+
+                </div>
+            </div>
+
+
+            <div class="table-div">
+                <a><img src=img/ETH.png class="img-center" alt="ETH price"></a>
+                <h4 style="margin: 0">ETH</h4>
+                <div>
+
+                    <div class="description">
+                        <span style="padding: 5px; float:left ">Price:</span>
+                        <span class="price" style="padding: 5px; float:right">€2,965.12</span>
+                    </div>
+                    <br>
+
+                    <div class="description">
+                        <span style="padding: 5px;float: left ">24h%:</span>
+                        <span style="padding: 5px; float:right; color: #16c784">+0.34%</span>
+                    </div>
+                    <br>
+
+
+                    <div class="description">
+                        <span style="padding: 5px;float:left ">7d%:</span>
+                        <span style="padding: 5px; float:right; color: #16c784">+20.53%</span>
+                    </div>
+                    <br>
+
+                </div>
+            </div>
+
+            <div class="table-div">
+                <a><img src=img/Litecoin.png class="img-center" alt="Litecoin price"></a>
+                <h4 style="margin: 0">Litecoin</h4>
+                <div>
+
+                    <div class="description">
+                        <span style="padding: 5px; float:left ">Price:</span>
+                        <span class="price" style="padding: 5px; float:right">€148.97</span>
+                    </div>
+                    <br>
+
+                    <div class="description">
+                        <span style="padding: 5px;float: left ">24h%:</span>
+                        <span style="padding: 5px; float:right; color: #ea3943">-2.35%</span>
+                    </div>
+                    <br>
+
+
+                    <div class="description">
+                        <span style="padding: 5px;float:left ">7d%:</span>
+                        <span style="padding: 5px; float:right; color: #16c784">+19.52%</span>
+                    </div>
+                    <br>
+
+                </div>
+            </div>
+
+            <div class="table-div">
+                <a><img src=img/ShibaInu.png class="img-center" alt="Shiba Inu price"></a>
+                <h4 style="margin: 0">Shiba Inu</h4>
+                <div>
+
+                    <div class="description">
+                        <span style="padding: 5px; float:left ">Price:</span>
+                        <span class="price" style="padding: 5px; float:right">€0.00001599</span>
+                    </div>
+                    <br>
+
+                    <div class="description">
+                        <span style="padding: 5px;float: left ">24h%:</span>
+                        <span style="padding: 5px; float:right; color: #16c784">+66.72%</span>
+                    </div>
+                    <br>
+
+
+                    <div class="description">
+                        <span style="padding: 5px;float:left ">7d%:</span>
+                        <span style="padding: 5px; float:right; color: #16c784">+161.97%</span>
+                    </div>
+                    <br>
+
+                </div>
+            </div>
+
+
+            <div class="table-div">
+                <a><img src=img/ShibaInu.png class="img-center" alt="Shiba Inu price"></a>
+                <h4 style="margin: 0">Shiba Inu</h4>
+                <div>
+
+                    <div class="description">
+
+                        <span style="padding: 5px; float:left ">Price:</span>
+                        <span class="price" style="padding: 5px; float:right">€0.00001599</span>
+                    </div>
+                    <br>
+
+                    <div class="description">
+                        <span style="padding: 5px;float: left ">24h%:</span>
+                        <span style="padding: 5px; float:right; color: #16c784">+66.72%</span>
+                    </div>
+                    <br>
+
+
+                    <div class="description">
+                        <span style="padding: 5px;float:left ">7d%:</span>
+                        <span style="padding: 5px; float:right; color: #16c784">+161.97%</span>
+                    </div>
+                    <br>
+
+                </div>
+            </div>
+
+
+            <div class="table-div">
+                <a><img src=img/ShibaInu.png class="img-center" alt="Shiba Inu price"></a>
+                <h4 style="margin: 0">Shiba Inu</h4>
+                <div>
+
+                    <div class="description">
+                        <span style="padding: 5px; float:left ">Price:</span>
+                        <span class="price" style="padding: 5px; float:right">€0.00001599</span>
+                    </div>
+                    <br>
+
+                    <div class="description">
+                        <span style="padding: 5px;float: left ">24h%:</span>
+                        <span style="padding: 5px; float:right; color: #16c784">+66.72%</span>
+                    </div>
+                    <br>
+
+
+                    <div class="description">
+                        <span style="padding: 5px;float:left ">7d%:</span>
+                        <span style="padding: 5px; float:right; color: #16c784">+161.97%</span>
+                    </div>
+                    <br>
+
+                </div>
+            </div>
+
+
+        </article>
+    </main>
+</script>
+
+
+<script id="template-addOpinion" type="text/template">
+
+<div class="form_holder">
+<form id="opnFrm"  >
+    <div class="form_element" style="padding-bottom: 10px">
+    <label class="long" for="nameElm" >Your Name</label>
+    <span class="resizeable">
+        <input type="text" class="required_inputs" name="enTxt" id="nameElm"  size="50"
+               title="A-Z max. 200 characters" maxlength="200"
+               required
+               spellcheck="true"
+               autocomplete="on"
+               placeholder="Format: Name"
+
+        />
+    </span>
+    </div>
+
+    <label class="long" for="email">Email    </label>
+    <span class="resizeable">
+        <input type="email" class="required_inputs" name="enTxt" id="email" size="50"
+               title="max. 100 (characters)" maxlength="100"
+               required
+               spellcheck="true" lang="en"
+               autocomplete="on"
+               placeholder="Format: mail@mail.com"
+        />
+    </span>
+
+    <div class="form_element">
+    <label class="long" for="email">Gender   </label>
+    <input type="radio" id="male" name="gender" value="male">
+    <label for="male">Male</label>
+    <input type="radio" id="female" name="gender" value="female">
+    <label for="female">Female</label>
+    <input type="radio" id="other" name="gender" value="other">
+    <label for="other">Other</label>
+    </div>
+    <div class="form_element">
+        <label class="long" for="email">Topic   </label>
+    <input type="checkbox" id="topic1" >
+    <label for="topic1">Design</label>
+    <input type="checkbox" id="topic2" >
+    <label for="topic2">Crypto</label>
+    <input type="checkbox" id="topic3" >
+    <label for="topic3">Support</label>
+    </div>
+    <div class="form_element">
+    <label class="long" for="relElm">Or type your own topic</label>
+    <input type="text" class="input_class" name="rel" id="relElm" size="50"
+           title="Topic" maxlength="50"
+           spellcheck="true" lang="en"
+           placeholder="Format: Your topic"
+
+    />
+    </div>
+    <div class="form_element">
+        <label class="long" for="KeyWords">Which cryptocurrency do you prefer to trade?</label>
+        <input list="words" id="KeyWords" name="KeyWords" type="text" class="input_class" />
+        <datalist id="words">
+            <option value="BTC">
+            <option value="Binance Coin">
+            <option value="Dogecoin">
+            <option value="ETH">
+            <option value="Litecoin">
+            <option value="Shiba Inu">
+        </datalist>
+    </div>
+
+    <div class="form_element" style="padding-bottom: 10px">
+    <label class="long" for="URL">URL image </label>
+    <input type="url" class="input_class" name="rel"  id="URL" size="50"
+           title="URL image" maxlength="100"
+           autocomplete="off"
+           placeholder="Format: https://some web/photo.jpg"
+    />
+    </div>
+
+    <div class="required_inputs">
+    <label class="long"  for="opnElm">Text</label>
+    <textarea name="textArt" id="opnElm" class="required_inputs"
+              spellcheck="true" lang="en"
+              required
+              cols="50"
+              placeholder="Describe your opinion"
+              rows="3"></textarea>
+    </div>
+
+
+    <br>
+    <button onclick="download_image()" class="input_class" >Send photo</button>
+    <input type="reset" class="input_class" value="Zmaž (Delete)" />
+    <input type="submit" class="input_class" name ="send" value="Odoslať (Send)" />
+
+</form>
+
+
+
+
+<div id="imageContainer">
+
+</div>
+
+
+
+</div>
+
+</script >
+
+<script id="template-article-form" type="text/template">
+    <article style="text-align: center; " >
+        <h2 style="color: #fff;">{{formTitle}}</h2> <br><br>
+
+        <form class="article_form" id="articleForm" onsubmit="return {{formSubmitCall}}">
+            <div class="form_element" style="padding-bottom: 10px">
+            <label for="author">Author:</label>
+            <input type="text" name="author" id="author" value="{{author}}" size="50"
+                   title="Article author, max. length 100 characters."
+                   maxlength="100" placeholder="e.g. Ján Trieska" />
+            </div>
+            <br>
+            <div class="form_element" style="padding-bottom: 10px">
+            <label for="title">Title:</label>
+            <input type="text" name="title" id="title" value="{{title}}" size="50"
+                   maxlength="100" pattern="\S[\S\s]*" placeholder="e.g. My story." required
+                   title="Article title, mandatory item, max. length: 100 characters, the first character must not be a space."  />
+            </div>
+            <br>
+            <div class="form_element" style="padding-bottom: 10px">
+            <label for="imageLink">Image (url):</label>
+            <input type="url" name="imageLink" id="imageLink" value="{{imageLink}}" size="50"
+                   title="Image URL, max. length 100 characters." maxlength="100"/>
+            </div>
+
+            <br>
+
+            <div class="form_element" style="padding-bottom: 10px">
+            <button type="button" id="btShowFileUpload" onclick="showFileUpload()">Upload image</button>
+
+            <fieldset class="added hiddenElm" id="fsetFileUpload">
+                <legend>Image Upload</legend>
+                <input type="file" id="flElm" name="file" accept="image/jpeg, image/png"/>
+                <br />
+                <button type="button" id="btFileUpload" onclick="uploadImg('{{urlBase}}')">
+                    Send image to server </button>
+                <button type="button" id="btCancelFileUpload" onclick="cancelFileUpload()">
+                    Cancel uploading </button>
+            </fieldset>
+
+            </div>
+            <br>
+            <div class="form_element" style="padding-bottom: 10px">
+            <label for="content">Article content:</label>
+            <textarea
+                    name="content" id="content" spellcheck="true" lang="sk"
+                    cols="50" rows="20" required
+                    title="Article content, mandatory item, can be plain text or in HTML.">
+              {{content}}
+            </textarea>
+            </div>
+            <br>
+            <div class="form_element" style="padding-bottom: 10px">
+            <label for="tags">Keywords:</label>
+            <input  type="text" name="tags" id="tags" value="{{tags}}" size="50"
+                    title="Keyword list, comma separated." placeholder="e.g. village, drama" />
+            </div>
+            <br> <br>
+            <button type="reset"> Reset Form </button>
+            <button type="submit">{{submitBtTitle}} Submit </button>
+
+        </form>
+        <div>
+        <a href="{{backLink}}" class="linkAsButton"><< Back</a>
+
+    </div>
+    </article>
+
+
+
+
+
+</script>
+
+
+<script id="mTmplOneImage" class="form_image" type="text/template">
+    <img class="form_image" src={{URl}} alt="image">
+</script>
+
+<h2 style="color: #fff; text-align: center"> Signed in User Info</h2>
+<div id="userStatus"></div>
+
+
+<script src="https://apis.google.com/js/platform.js?onload=startGSingIn" async defer></script>
+<script src="js/mustache.min.js"></script>
+<script src="js/82GoogleAccessBetter.js"></script>
+<script src="js/code.js"></script>
+<script src="js/handleArticleForms.js"></script>
+<script type="module" src="js/routes.js"></script>
+
+<script type="module" src="js/routerInit.js"></script>
+
+<footer>
+    <ul>
+        <li><a href="https://www.facebook.com/andrej.kuts.3/" target="_blank"><img
+                src="img/Facebook.png" alt="Facebook link" style="width: 40px; height: auto;"></a>
+            <a href="https://www.instagram.com/kuczandrej/" target="_blank"><img src="img/Instagram.png"
+                                                                                          alt="Instagram link"
+                                                                                          style="width: 40px; height: auto;"></a>
+            <a href="mailto:andrej.kuts1@gmail.com?Subject=Reakcia%20na%20blog%20CryptoTrader%20"><img
+                    src="img/gmail_icon-icons.com_62758.png" alt="mail link" style="width: 40px; height: auto;"></a>
+        </li>
+        <li>© 2002 - 2022 Andrii Kuts</li>
+    </ul>
+
+</footer>
+</body>
+</html>

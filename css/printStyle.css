@@ -1,0 +1,44 @@
+@media print {
+    @page {
+        margin: 1cm;
+    }
+    body {
+        font-family: Georgia, 'Times New Roman', Times, serif;
+        -webkit-filter: grayscale(100%);
+        filter: grayscale(100%);
+    }
+    .main
+    {
+        margin: 0;
+        /*text-align: center;*/
+        /*width: 100vw;!important;*/
+        display: block;
+    }
+    .main .table-div
+    {
+        display: block;
+        /*page-break-before: avoid;*/
+        page-break-after: always;
+        page-break-inside: avoid;
+    }
+    h1{
+        border: solid white !important;
+    }
+    nav
+    {
+        display: none;
+    }
+
+    *,
+    p:first-line,
+    blockquote:first-line,
+    li:first-line {
+        background: transparent !important;
+        color: #000 !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+
+
+
+}
